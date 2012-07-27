@@ -19,7 +19,7 @@ phrases = [
   "Your brother's sister"
 ]
 
-olys [
+olys = [
   'http://anongallery.org/img/3/5/o-rly-orly-owl.jpg'
 ]
 
