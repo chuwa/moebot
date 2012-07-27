@@ -32,7 +32,8 @@ orlys = [
   'http://i136.photobucket.com/albums/q170/skisteve/O_Rly4.jpg',
   'http://i136.photobucket.com/albums/q170/skisteve/ja_rly.jpg',
   'http://i136.photobucket.com/albums/q170/skisteve/ya_rly_doom.jpg',
-  'http://i136.photobucket.com/albums/q170/skisteve/hlblyorly.gif'
+  'http://i136.photobucket.com/albums/q170/skisteve/hlblyorly.gif',
+  'http://fc08.deviantart.net/fs8/i/2005/346/0/5/More___O_RLY____Owl__by_Goldsickle.jpg'
 ]
 
 module.exports = (robot) ->
