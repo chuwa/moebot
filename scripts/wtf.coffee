@@ -16,7 +16,9 @@ phrases = [
   "Your brother",
   "Your sister",
   "Your sister's brother",
-  "Your brother's sister"
+  "Your brother's sister",
+  "Your mama",
+  "Your sister's sister"
 ]
 
 orlys = [
@@ -38,7 +40,7 @@ orlys = [
 
 module.exports = (robot) ->
   robot.hear /your sister/i, (msg) ->
-    msg.send msg.random phrases
+    msg.reply msg.random phrases
 
   robot.hear /orly/i, (msg) ->
     msg.send msg.random orlys
