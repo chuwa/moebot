@@ -67,7 +67,7 @@ class EarDropping
     @robot.brain.data.eardropping = @cache
   all: -> @cache
   deleteByPattern: (pattern) ->
-    @cache = @cache.filter (n) -> n.key == pattern
+    @cache = @cache.filter (n) -> n.key != pattern
     @robot.brain.data.eardropping = @cache
   deleteAll: () ->
     @cache = []
