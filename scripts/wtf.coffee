@@ -112,4 +112,4 @@ module.exports = (robot) ->
         if (msg.message.user? && robot.name != msg.message.user.name)
     #u = robot.userForName('Hubot'.toLowerCase())
     #console.log('Hubot')
-          robot.receive new TextMessage(msg.message.user, "#{robot.name}: #{task.task}")
+          robot.receive new TextMessage(robot.userForName(robot.name), "#{robot.name}: #{task.task}")
