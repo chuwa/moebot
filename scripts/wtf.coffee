@@ -85,8 +85,11 @@ module.exports = (robot) ->
   robot.respond /when you hear (.+?) do (.+?)$/i, (msg) ->
     key = msg.match[1]
     task = msg.match[2]
-    earDropping.add(key, task)
-    msg.send "I am now ear dropping for #{key}. Hehe."
+    if false and RegExp(key).test(task)
+      msg.send "No way.  I will go into a dead loop if I do this"
+    else
+      earDropping.add(key, task)
+      msg.send "I am now ear dropping for #{key}. Hehe."
 
   robot.respond /stop ear *dropping$/i, (msg) ->
     earDropping.deleteAll()
@@ -105,11 +108,11 @@ module.exports = (robot) ->
 
   robot.hear /(.+)/i, (msg) ->
     robotHeard = msg.match[1]
+
     for task in earDropping.all()
       if new RegExp(task.key).test(robotHeard)
-        console.log(msg.message.user)
-        console.log(msg.message.user)
-        if (msg.message.user? && robot.name != msg.message.user.name)
-    #u = robot.userForName('Hubot'.toLowerCase())
-    #console.log('Hubot')
+        #console.log(msg.message.user)
+        #console.log(robotHeard)
+        #console.log(RegExp("^#{robot.name}").test(robotHeard))
+        if (msg.message.user? && robot.name != msg.message.user.name && !(new RegExp("^#{robot.name}").test(robotHeard)))
           robot.receive new TextMessage(msg.message.user, "#{robot.name}: #{task.task}")
