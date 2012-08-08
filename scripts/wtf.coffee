@@ -13,12 +13,10 @@
 #   glin
 
 phrases = [
-  "Your brother",
-  "Your sister",
-  "Your sister's brother",
-  "Your brother's sister",
-  "Your mama",
-  "Your sister's sister"
+  'http://img11.itiexue.net/1317/13177043.jpg',
+  'http://www.di4kj.com/upfiles/201202/20120218171708343.jpg',
+  'http://img10.itiexue.net/1293/12934222.jpg',
+  'http://image.hnol.net/c/2011-03/09/08/20110309080706261-2709668.jpg'
 ]
 
 orlys = [
