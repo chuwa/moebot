@@ -8,9 +8,15 @@
 #   None
 #
 # Commands:
+#   hubot when you hear <pattern> do <something hubot does> - Setup a ear dropping event
+#   hubot stop ear dropping - Stop all ear dropping
+#   hubot stop ear dropping on <pattern> - Remove a particular ear dropping event
+#   hubot show ear dropping - Show what hubot is ear dropping on
 #
 # Author:
 #   glin
+
+TextMessage = require('hubot').TextMessage
 
 phrases = [
   'http://www.di4kj.com/upfiles/201202/20120218171708343.jpg',
@@ -49,9 +55,59 @@ orlys = [
   'http://fc08.deviantart.net/fs8/i/2005/346/0/5/More___O_RLY____Owl__by_Goldsickle.jpg'
 ]
 
+class EarDropping
+  constructor: (@robot) ->
+    @cache = []
+    @robot.brain.on 'loaded', =>
+      if @robot.brain.data.eardropping
+        @cache = @robot.brain.data.eardropping
+  add: (pattern, action) ->
+    task = {key: pattern, task: action}
+    @cache.push task
+    @robot.brain.data.eardropping = @cache
+  all: -> @cache
+  deleteByPattern: (pattern) ->
+    @cache = @cache.filter (n) -> n.pattern == pattern
+    @robot.brain.data.eardropping = @cache
+  deleteAll: () ->
+    @cache = []
+    @robot.brain.data.eardropping = @cache
+
 module.exports = (robot) ->
   robot.hear /your sister/i, (msg) ->
     msg.reply msg.random phrases
 
   robot.hear /orly/i, (msg) ->
     msg.send msg.random orlys
+
+  earDropping = new EarDropping robot
+
+  robot.respond /when you hear (.+?) do (.+?)$/i, (msg) ->
+    key = msg.match[1]
+    task = msg.match[2]
+    earDropping.add(key, task)
+    msg.send "I am now ear dropping for #{key}. Hehe."
+
+  robot.respond /stop ear *dropping$/i, (msg) ->
+    earDropping.deleteAll()
+    msg.send 'Okay, fine. :(  I am keep my ears shut.'
+
+  robot.respond /stop ear *dropping (for|on) (.+?)$/i, (msg) ->
+    pattern = msg.match[2]
+    earDropping.deleteByPattern(pattern)
+    msg.send "Okay, I will ignore #{pattern}"
+
+  robot.respond /show ear *dropping/i, (msg) ->
+    response = "\n"
+    for task in earDropping.all()
+      response += "#{task.key} -> #{task.task}\n"
+    msg.send response
+
+  robot.hear /(.+)/i, (msg) ->
+    robotHeard = msg.match[1]
+    for task in earDropping.all()
+      if new RegExp(task.key).test(robotHeard)
+        if (msg.message.user? && !(new RegExp(robot.name).test(msg.message.user.name)))
+    #u = robot.userForName('Hubot'.toLowerCase())
+    #console.log('Hubot')
+          robot.receive new TextMessage(null, "#{robot.name}: #{task.task}")
