@@ -14,7 +14,22 @@
 
 phrases = [
   'http://www.di4kj.com/upfiles/201202/20120218171708343.jpg',
-  'http://image.hnol.net/c/2011-03/09/08/20110309080706261-2709668.jpg'
+  'http://image.hnol.net/c/2011-03/09/08/20110309080706261-2709668.jpg',
+  'http://img839.imageshack.us/img839/1924/26476972.jpg',
+  'http://www.weirdasianews.com/wp-content/uploads/2009/05/grassmudhorse01.jpg',
+  'http://img1.aili.com/images/201204/09/1333958912_55872500.jpg',
+  'http://dida0125.myweb.hinet.net/2/p121634246916.jpg',
+  'http://www2.pic.yxdown.com/2012-1/380212788251751745309150.jpg',
+  'http://www.leicn.net/attachments/120429/f3405a988170e07ee92c252278d14a29.jpg',
+  'http://www.kklook.info/content/uploadfile/201111/bdf6e4ea7e289aeb03fed41413a5074020111126212421.gif',
+  'http://www.qqtx.org/upimg/201008/20100823062936515.gif',
+  'http://www.ccjoy.com/upload/image/%E5%9B%BE2-%E7%9C%8B%E4%BD%A0%E5%A6%B9%E6%88%90%E4%B8%BA%E6%B5%81%E8%A1%8C%E8%AF%AD.jpg',
+  'http://upload.univs.cn/2011/1230/1325224781138.jpg',
+  'http://www.mask9.com/sites/default/files/mt0x0001/10158/image/201112/event-nimeilaile-poster-mask9.jpg',
+  'http://upfile.asqql.com/2009pasdfasdfic2009s305985-ts/2011-7/2011797212666737_asqql.com.jpg',
+  'http://upfile.asqql.com/2009pasdfasdfic2009s305985-ts/2011-7/2011797212691681_asqql.com.jpg',
+  'http://upfile.asqql.com/2009pasdfasdfic2009s305985-ts/2011-7/2011797212618343_asqql.com.jpg',
+  'http://timg.ddmap.com/cheng/userimages/normal/2011-12-13/2011-12-13-1323758476938.jpg'
 ]
 
 orlys = [
