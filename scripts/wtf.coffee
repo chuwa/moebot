@@ -107,7 +107,9 @@ module.exports = (robot) ->
     robotHeard = msg.match[1]
     for task in earDropping.all()
       if new RegExp(task.key).test(robotHeard)
-        if (msg.message.user? && !(new RegExp(robot.name).test(msg.message.user.name)))
+        console.log(msg.message.user)
+        console.log(robot.name)
+        if (msg.message.user? && robot.name != msg.message.user.name)
     #u = robot.userForName('Hubot'.toLowerCase())
     #console.log('Hubot')
-          robot.receive new TextMessage(null, "#{robot.name}: #{task.task}")
+          robot.receive new TextMessage(msg.message.user, "#{robot.name}: #{task.task}")
