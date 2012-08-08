@@ -74,13 +74,13 @@ class EarDropping
     @robot.brain.data.eardropping = @cache
 
 module.exports = (robot) ->
+  earDropping = new EarDropping robot
+
   robot.hear /your sister/i, (msg) ->
     msg.reply msg.random phrases
 
   robot.hear /orly/i, (msg) ->
     msg.send msg.random orlys
-
-  earDropping = new EarDropping robot
 
   robot.respond /when you hear (.+?) do (.+?)$/i, (msg) ->
     key = msg.match[1]
