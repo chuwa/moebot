@@ -82,7 +82,7 @@ module.exports = (robot) ->
   robot.hear /orly/i, (msg) ->
     msg.send msg.random orlys
 
-  robot.hear /i love (.+?)/i, (msg) ->
+  robot.hear /i love (.+)/i, (msg) ->
     text = escape(msg.match[1])
     msg.send "http://www.images-graphics-pics.com/banners/buttonIMG.asp?text=#{text}&color=0-0-0&symbol=Y%22"
 
