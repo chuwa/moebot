@@ -25,7 +25,6 @@ module.exports = (robot) ->
   # 1.git pull repo
   # 2.kill self(relax man, I have bluepill :-))
   robot.respond /update$/i, (msg) ->
-    msg.send "yeah! ..... I am growing up..."
     child = exec "git pull origin master",(error, stdout, stderr) ->
       msg.send "update my blood...."
       msg.send stdout
