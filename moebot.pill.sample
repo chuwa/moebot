@@ -1,0 +1,25 @@
+
+envs = [
+  "DEPLOYHOOKS_HTTP_URL=https://api.hipchat.com/v1/webhooks/heroku?auth_token=73c245d96fa931762e88d37bf08032",
+  "HUBOT_HIPCHAT_JID=*****",
+  "HUBOT_HIPCHAT_NAME=moebot",
+  'HUBOT_HIPCHAT_PASSWORD=*****',
+  "HUBOT_MEMEGEN_PASSWORD=chuwa",
+  "HUBOT_MEMEGEN_USERNAME=chuwa" ]
+
+HUBOT_DIR = "/home/mike/apps/moebot"
+BOT_NAME = "moebot"
+USER = "mike"
+GROUP = "mike"
+
+Bluepill.application("chuwa", :log_file => "/home/mike/apps/moebot/bluepill.log") do |app|
+  app.process("moebot") do |process|
+    process.working_dir = HUBOT_DIR
+    process.start_command = "/usr/bin/env #{envs.join(" ")} ./bin/hubot -n #{BOT_NAME} -a hipchat &"
+    process.pid_file = "#{HUBOT_DIR}/pid_file.pid"
+
+    process.uid = USER
+    process.gid = GROUP
+    process.daemonize = true
+  end
+end

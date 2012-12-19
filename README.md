@@ -1,6 +1,6 @@
 # Start Moebot
 ```
-./bin/hubot -a hipchat -n moebot
+sudo bluepill load moebot.pill
 ```
 
 # Hubot
