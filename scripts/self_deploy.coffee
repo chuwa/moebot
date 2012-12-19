@@ -30,5 +30,7 @@ module.exports = (robot) ->
       msg.send "update my blood...."
       msg.send stdout
       msg.send "reborn....."
-      exec "kill `cat #{PID_FILE}`",(error, stdout, stderr) ->
+      exec "kill `cat #{PID_FILE}`", (error, stdout, stderr) ->
+        msg.send error
         msg.send stdout
+        msg.send stderr
