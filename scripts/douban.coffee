@@ -69,10 +69,7 @@ module.exports = (robot) ->
         image = $("#mainpic a")[0].attribs.href
         point = $("strong.rating_num").text()
         descript = $("#link-report").text()
-        msg.send title
-        msg.send image
-        msg.send "Average: #{point}"
-        msg.send descript
+        msg.send "#{title} \n#{image} \nAverage:#{point} \n#{descript}"
         # for result in $("#atfResults > div,#btfResults > div")
         #   message += "#{$(result).find('.newaps a span').text()} -- (#{$(result).find(".asinReviewsSummary>a").attr('alt')})\n"
         #   message += "#{$(result).find('.newaps a').attr('href')}\n\n"
