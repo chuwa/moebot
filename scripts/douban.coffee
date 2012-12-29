@@ -66,7 +66,7 @@ module.exports = (robot) ->
         $ = cheerio.load body
         # scrap infos
         title = $("#wrapper h1 span").text()
-        image = $("#mainpic a")[0].attribs.href
+        image = $("#mainpic img")[0].attribs.src
         point = $("strong.rating_num").text()
         descript = $("#link-report").text()
         msg.send "#{title} \n#{image} \nAverage:#{point} \n#{descript}"
