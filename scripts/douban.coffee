@@ -17,6 +17,7 @@
 
 xml2js = require('xml2js')
 _ = require('underscore')
+cheerio = require('cheerio')
 
 api = (kind,query)->
   "http://api.douban.com/#{kind}/subjects?q=#{query}"
@@ -58,3 +59,21 @@ module.exports = (robot) ->
         msg.send 'let me check it out....'
         human_body(body,msg)
 
+  # listen the movie or books that you hear about douban
+  robot.hear /(.*douban\.com\/subject.*)/i,(msg) ->
+    msg.http(msg.match[1])
+      .get() (err,res,body) ->
+        $ = cheerio.load body
+        # scrap infos
+        title = $("#wrapper h1 span").text()
+        image = $("#mainpic a")[0].attribs.href
+        point = $("strong.rating_num").text()
+        descript = $("#link-report").text()
+        msg.send title
+        msg.send image
+        msg.send "Average: #{point}"
+        msg.send descript
+        # for result in $("#atfResults > div,#btfResults > div")
+        #   message += "#{$(result).find('.newaps a span').text()} -- (#{$(result).find(".asinReviewsSummary>a").attr('alt')})\n"
+        #   message += "#{$(result).find('.newaps a').attr('href')}\n\n"
+        # msg.send message
