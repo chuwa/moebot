@@ -55,7 +55,7 @@ class Task
     @scope = getAttr(@asset, "Scope.Name")
     @todo = getAttr(@asset, "Todo")
     @description = getAttr(@asset, "Description")
-    @href = @asset['@']['href']
+    @href = "https://www14.v1host.com#{@asset['@']['href']}"
 
   getStatus: (status_id) =>
     map = {
@@ -68,7 +68,7 @@ class Task
 
   toString: =>
     str = ""
-    str += "<a href='https://www14.v1host.com#{@href}'>#{@name}</a>\n"
+    str += "#{@name}\n"
     str += @status + "\n"
     str += @member + "\n"
     str += "TODO: " + @todo + "\n"
@@ -117,4 +117,5 @@ module.exports = (robot) ->
             continue unless t.team in ["Rapidus Front End Team"]
             continue unless t.sprint in ["MVP 1.0 Sprint 12"]
             msg.send t.toString()
+            msg.send t.href
 
