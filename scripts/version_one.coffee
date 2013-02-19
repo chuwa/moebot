@@ -49,6 +49,8 @@ v1_options = {
 
 class Task
   constructor:(asset)->
+    unless asset['@']['id']
+      return
     @asset = asset
     @name = getAttr(@asset, 'Name')
     @number = getAttr(@asset, 'Number')
@@ -147,6 +149,8 @@ class Task
           callback(tasks)
 
   toString: =>
+    unless @id
+      return "Not Found..."
     str = ""
     str += "  #{@number} #{@name}(#{@id})\n"
     str += "-> #{@member}" + "\n"
