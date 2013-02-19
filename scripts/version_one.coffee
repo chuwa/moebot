@@ -69,8 +69,8 @@ class Task
   toString: =>
     str = ""
     str += " #{@name}\n"
-    str += "----> #{@member}" + "\n"
-    str += @status + "\n"
+    str += "--> #{@member}" + "\n"
+    str += "--> #{@status}" + "\n"
     str += "TODO: " + @todo + "\n"
     str += @description  + "\n"
     str
