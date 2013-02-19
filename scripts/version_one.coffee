@@ -105,6 +105,10 @@ module.exports = (robot) ->
     setting = _s.trim(msg.match[1])
     settingArray = setting.split('=')
     robot.brain.data.v1_setting[settingArray[0]] = settingArray[1]
+    msg.send robot.brain.data.v1_setting
+
+  robot.respond /v1 config$/i, (msg) ->
+    msg.send robot.brain.data.v1_setting
 
   # search movie
   robot.respond /v1 tasks(.*)?$/i, (msg) ->
