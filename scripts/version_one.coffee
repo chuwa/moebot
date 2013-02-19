@@ -17,6 +17,7 @@
 
 xml2js = require('xml2js')
 _ = require('underscore')
+_s = require('underscore.string')
 cheerio = require('cheerio')
 https = require('https')
 
@@ -100,9 +101,10 @@ https.get "https://#{username}:#{password}@www14.v1host.com/acxiom1/VersionOne/r
 
 module.exports = (robot) ->
   # search movie
-  robot.respond /v1 tasks$/i, (msg) ->
+  robot.respond /v1 tasks(.*)?$/i, (msg) ->
     resource = "Task"
     result = ""
+    owner = _s.trim(msg.match[1])
     https.get "https://#{username}:#{password}@www14.v1host.com/acxiom1/VersionOne/rest-1.v1/Data/#{resource}", (res)->
       # append data to result
       res.on "data", (data)->
@@ -116,5 +118,7 @@ module.exports = (robot) ->
             continue unless t.status in ["In Progress", "Not Started"]
             continue unless t.team in ["Rapidus Front End Team"]
             continue unless t.sprint in ["MVP 1.0 Sprint 12"]
+            if owner?
+              continue unless (t.member == owner)
             msg.send t.toString()
 
