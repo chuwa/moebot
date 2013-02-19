@@ -68,7 +68,7 @@ class Task
 
   toString: =>
     str = ""
-    str += "#{@name}\n"
+    str += "(coffee) #{@name}\n"
     str += @status + "\n"
     str += @member + "\n"
     str += "TODO: " + @todo + "\n"
