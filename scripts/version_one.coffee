@@ -10,6 +10,7 @@
 # Commands:
 #   hubot v1 tasks - show all tasks
 #   hubot v1 tasks <username> - show tasks of <username>
+#   hubot v1 task <taskid>- show <taskid>
 #   hubot v1 config - show v1 configs
 #   hubot v1 set <sprint>=<12> - set <sprint> to <12>
 #   hubot v1 update <12345> <ToDo> <2> - update task <12345>'s <ToDo> to <2>
@@ -119,19 +120,31 @@ class Task
     req.write(_s.trim(body))
     req.end()
 
-  @all: (callback)->
-    https.get "https://#{username}:#{password}@www14.v1host.com/acxiom1/VersionOne/rest-1.v1/Data/Task", (res)->
-      result = ""
+  @find: (taskid, callback)->
+    https.get "https://#{username}:#{password}@www14.v1host.com/acxiom1/VersionOne/rest-1.v1/Data/Task/#{taskid}", (res)->
+      resultStr = ""
       # append data to result
       res.on "data", (data)->
-        result += data.toString()
+        resultStr += data.toString()
       # yeah! got the result
       res.on "end", (data) ->
         parser = new xml2js.Parser()
-        parser.parseString result, (err, result)->
-         tasks =  _.map result.Asset,(t)->
-           new Task(t)
-         callback(tasks)
+        parser.parseString resultStr, (err, result)->
+          callback(new Task(result))
+
+  @all: (callback)->
+    https.get "https://#{username}:#{password}@www14.v1host.com/acxiom1/VersionOne/rest-1.v1/Data/Task", (res)->
+      resultStr = ""
+      # append data to result
+      res.on "data", (data)->
+        resultStr += data.toString()
+      # yeah! got the result
+      res.on "end", (data) ->
+        parser = new xml2js.Parser()
+        parser.parseString resultStr, (err, result)->
+          tasks =  _.map result.Asset,(t)->
+            new Task(t)
+          callback(tasks)
 
   toString: =>
     str = ""
@@ -166,15 +179,16 @@ module.exports = (robot) ->
 
   robot.respond /v1 task (.*)$/i, (msg) ->
     taskid = _s.trim(msg.match[1])
-    msg.send "TODO return task info"
+    Task.find taskid,(t)->
+      msg.send t.toString()
 
   robot.respond /v1 complete (.*)$/i, (msg) ->
     taskid = _s.trim(msg.match[1])
     msg.send "TODO call Task.complete('sdfsdf')"
 
   robot.respond /v1 update (.*)$/i, (msg) ->
-    [taskid,attrName,attrValue] = _s.clean(msg.match[1]).split(' ')
-    Task.updateAttribute taskid,attrName,attrValue,(res)->
+    [taskid,attrName,attrValue...] = _s.clean(msg.match[1]).split(' ')
+    Task.updateAttribute taskid,attrName,attrValue.join(' '),(res)->
       msg.send res
 
   robot.respond /v1 set(.*)?$/i, (msg) ->
