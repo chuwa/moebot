@@ -26,7 +26,8 @@
     "xml2js": "0.1.14",
     "cheerio": "0.9.1",
     "aws-lib": "0.1.1",
-    "nodepie": "0.5.1"
+    "nodepie": "0.5.1",
+    "futures": ">=2.1.0"
   },
 
   "engines": {
