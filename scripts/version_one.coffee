@@ -48,15 +48,21 @@ class Task
       # do nothing
     @status = @getStatus(@status_id)
     try
-      @member_id = getRelation(@asset, 'Owners')['@']['idref']
+      owners = getRelation(@asset, 'Owners')
+      if owners['length'] > 0
+        ids = _.map owners,(owner)->
+          MEMBERS[owner['@']['idref']]
+        @member = ids.join(',')
+      else
+        @member = MEMBERS[owners['@']['idref']]
     catch error
       @member_id = null
-    @member = MEMBERS[@member_id]
     @team = getAttr(@asset, "Team.Name")
     @sprint = getAttr(@asset, "Timebox.Name")
     @scope = getAttr(@asset, "Scope.Name")
-    @todo = getAttr(@asset, "Todo")
-    @description = getAttr(@asset, "Description")?.replace(/(<([^>]+)>)/ig,"").replace('&nbsp','')
+    @todo = getAttr(@asset, "ToDo") || '-'
+    @estimate = getAttr(@asset, "DetailEstimate") || '-'
+    @description = getAttr(@asset, "Description")?.replace(/(<([^>]+)>)/ig,"").replace('&nbsp','') || ''
     @href = "https://www14.v1host.com#{@asset['@']['href']}"
 
   getStatus: (status_id) =>
@@ -73,8 +79,9 @@ class Task
     str += " #{@name}\n"
     str += "--> #{@member}" + "\n"
     str += "--> #{@status}" + "\n"
-    str += "TODO: " + @todo + "\n"
-    str += @description  + "\n"
+    str += "--> ESTI: " + @estimate + "\n"
+    str += "--> TODO: " + @todo + "\n"
+    str += "--> DESC: #{@description}"  + "\n"
     str
 
 v1_options = {
@@ -100,7 +107,10 @@ https.get "https://#{username}:#{password}@www14.v1host.com/acxiom1/VersionOne/r
         MEMBERS[mem['@'].id] = getAttr(mem,"Name")
 
 module.exports = (robot) ->
-  robot.brain.data.v1_setting ||= {}
+  robot.brain.data.v1_setting ||= { sprint: 12 }
+
+  robot.respond /v1 members$/i, (msg) ->
+    msg.send Util.inspect(MEMBERS, false, 4)
 
   robot.respond /v1 set(.*)?$/i, (msg) ->
     setting = _s.trim(msg.match[1])
@@ -133,6 +143,6 @@ module.exports = (robot) ->
             continue unless t.team in ["Rapidus Front End Team"]
             continue unless t.sprint in ["MVP 1.0 Sprint #{robot.brain.data.v1_setting['sprint']}"]
             if owner.length > 0
-              continue unless (t.member == owner)
+              continue unless _s.include(t.member,owner)
             msg.send t.toString()
 
