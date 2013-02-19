@@ -78,12 +78,12 @@ class Task
 
   toString: =>
     str = ""
-    str += " #{@number} #{@name}\n"
-    str += "--> #{@member}" + "\n"
-    str += "--> #{@status}" + "\n"
-    str += "--> ESTI: " + @estimate + "\n"
-    str += "--> TODO: " + @todo + "\n"
-    str += "--> DESC: #{@description}"  + "\n"
+    str += "  #{@number} #{@name}\n"
+    str += "-> #{@member}" + "\n"
+    str += "-> #{@status}" + "\n"
+    str += "-> ESTI: " + @estimate + "\n"
+    str += "-> TODO: " + @todo + "\n"
+    str += "-> DESC: #{@description}"  + "\n"
     str
 
 v1_options = {
