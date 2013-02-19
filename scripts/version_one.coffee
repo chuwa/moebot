@@ -35,6 +35,13 @@ getRelation = (asset, relationName) =>
     att['@']?.name == relationName
   name[0].Asset
 
+v1_options = {
+  hostname: "www14.v1host.com"
+  port: 443
+  auth: "#{username}:#{password}"
+  path: '/'
+  method: 'GET'
+}
 
 class Task
   constructor:(asset)->
@@ -76,6 +83,53 @@ class Task
     }
     map[status_id]
 
+  # update task hours
+  @updateHours: (taskid,hours,callback)->
+    body = """
+      <Asset>
+        <Attribute name="ToDo" act="set">#{hours}</Attribute>
+      </Asset>
+    """
+    @post(taskid,body,callback)
+
+
+  # make task complete
+  @complete: (taskid,callback)->
+    body = """
+        <Asset>
+          <Relation name="Status" act="set">
+            <Asset href="/acxiom1/VersionOne/rest-1.v1/Data/TaskStatus/125" idref="TaskStatus:125"/>
+          </Relation>
+        </Asset>
+    """
+    @post(taskid,body,callback)
+
+  # make the post request
+  @post: (taskid,body,callback)->
+    ops = _.extend(v1_options, { path:"/acxiom1/VersionOne/rest-1.v1/Data/Task/81079", method: 'POST' })
+    req = https.request ops, (response)->
+      result = ""
+      response.on 'data', (chunk)->
+        result += chunk
+      response.on 'end',()->
+        callback(result)
+    req.write(_s.trim(body))
+    req.end()
+
+  @all: (callback)->
+    https.get "https://#{username}:#{password}@www14.v1host.com/acxiom1/VersionOne/rest-1.v1/Data/Task", (res)->
+      result = ""
+      # append data to result
+      res.on "data", (data)->
+        result += data.toString()
+      # yeah! got the result
+      res.on "end", (data) ->
+        parser = new xml2js.Parser()
+        parser.parseString result, (err, result)->
+         tasks =  _.map result.Asset,(t)->
+           new Task(t)
+         callback(tasks)
+
   toString: =>
     str = ""
     str += "  #{@number} #{@name}\n"
@@ -86,13 +140,6 @@ class Task
     str += "-> DESC: #{@description}"  + "\n"
     str
 
-v1_options = {
-  hostname: "www14.v1host.com"
-  port: 443
-  auth: "#{username}:#{password}"
-  path: '/'
-  method: 'GET'
-}
 
 MEMBERS = {}
 # cache memebers first
@@ -114,6 +161,14 @@ module.exports = (robot) ->
   robot.respond /v1 members$/i, (msg) ->
     msg.send Util.inspect(MEMBERS, false, 4)
 
+  robot.respond /v1 task (.*)$/i, (msg) ->
+    taskid = _s.trim(msg.match[1])
+    msg.send "TODO return task info"
+
+  robot.respond /v1 complete (.*)$/i, (msg) ->
+    taskid = _s.trim(msg.match[1])
+    msg.send "TODO call Task.complete('sdfsdf')"
+
   robot.respond /v1 set(.*)?$/i, (msg) ->
     setting = _s.trim(msg.match[1])
     settingArray = setting.split('=')
@@ -129,22 +184,13 @@ module.exports = (robot) ->
       msg.send "please set 'sprint' before check tasks."
       return
     resource = "Task"
-    result = ""
     owner = _s.trim(msg.match[1])
-    https.get "https://#{username}:#{password}@www14.v1host.com/acxiom1/VersionOne/rest-1.v1/Data/#{resource}", (res)->
-      # append data to result
-      res.on "data", (data)->
-        result += data.toString()
-      # yeah! got the result
-      res.on "end", (data) ->
-        parser = new xml2js.Parser()
-        parser.parseString result, (err, result)->
-          for task in result.Asset
-            t = new Task(task)
-            continue unless t.status in ["In Progress", "Not Started"]
-            continue unless t.team in ["Rapidus Front End Team"]
-            continue unless t.sprint in ["MVP 1.0 Sprint #{robot.brain.data.v1_setting['sprint']}"]
-            if owner.length > 0
-              continue unless _s.include(t.member,owner)
-            msg.send t.toString()
+    Task.all (tasks)->
+      for t in tasks
+        continue unless t.status in ["In Progress", "Not Started"]
+        continue unless t.team in ["Rapidus Front End Team"]
+        continue unless t.sprint in ["MVP 1.0 Sprint #{robot.brain.data.v1_setting['sprint']}"]
+        if owner.length > 0
+          continue unless _s.include(t.member,owner)
+        msg.send t.toString()
 
