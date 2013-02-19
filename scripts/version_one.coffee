@@ -118,7 +118,7 @@ module.exports = (robot) ->
             continue unless t.status in ["In Progress", "Not Started"]
             continue unless t.team in ["Rapidus Front End Team"]
             continue unless t.sprint in ["MVP 1.0 Sprint 12"]
-            if owner?
+            if owner.length > 0
               continue unless (t.member == owner)
             msg.send t.toString()
 
