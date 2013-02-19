@@ -84,10 +84,10 @@ class Task
     map[status_id]
 
   # update task hours
-  @updateHours: (taskid,hours,callback)->
+  @updateAttribute: (taskid,attrName,attrValue,callback)->
     body = """
       <Asset>
-        <Attribute name="ToDo" act="set">#{hours}</Attribute>
+        <Attribute name="#{attrName}" act="set">#{attrValue}</Attribute>
       </Asset>
     """
     @post(taskid,body,callback)
@@ -106,7 +106,7 @@ class Task
 
   # make the post request
   @post: (taskid,body,callback)->
-    ops = _.extend(v1_options, { path:"/acxiom1/VersionOne/rest-1.v1/Data/Task/81079", method: 'POST' })
+    ops = _.extend(v1_options, { path:"/acxiom1/VersionOne/rest-1.v1/Data/Task/#{taskid}", method: 'POST' })
     req = https.request ops, (response)->
       result = ""
       response.on 'data', (chunk)->
@@ -132,7 +132,7 @@ class Task
 
   toString: =>
     str = ""
-    str += "  #{@number} #{@name}\n"
+    str += "  #{@number} #{@name}(#{@id})\n"
     str += "-> #{@member}" + "\n"
     str += "-> #{@status}" + "\n"
     str += "-> ESTI: " + @estimate + "\n"
@@ -168,6 +168,11 @@ module.exports = (robot) ->
   robot.respond /v1 complete (.*)$/i, (msg) ->
     taskid = _s.trim(msg.match[1])
     msg.send "TODO call Task.complete('sdfsdf')"
+
+  robot.respond /v1 update (.*)$/i, (msg) ->
+    [taskid,attrName,attrValue] = _s.clean(msg.match[1]).split(' ')
+    Task.updateAttribute taskid,attrName,attrValue,(res)->
+      msg.send res
 
   robot.respond /v1 set(.*)?$/i, (msg) ->
     setting = _s.trim(msg.match[1])
