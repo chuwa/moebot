@@ -34,17 +34,6 @@ getRelation = (asset, relationName) =>
   name[0].Asset
 
 
-  # Task model represent the tasks in version one
-  # <Attribute name="Team.Name">Rapidus Back End Team</Attribute>
-  #     <Attribute name="Parent.Name">FE - Datamart Tree Load</Attribute>
-  #         <Attribute name="Parent.Number">B-09465</Attribute>
-  #             <Attribute name="Category.Name"/>
-  #                 <Attribute name="Source.Name"/>
-  #                     <Attribute name="Status.Name">Not Started</Attribute>
-  #                         <Attribute name="Customer.Name"/>
-  #                             <Attribute name="Customer.Nickname"/>
-  #                                 <Attribute name="Timebox.Name">MVP 1.0 Sprint 12</Attribute>
-  #                                     <Attribute name="Scope.Name">MVP Release 1.0</Attribute>
 class Task
   constructor:(asset)->
     @asset = asset
