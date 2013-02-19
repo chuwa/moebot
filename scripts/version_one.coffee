@@ -9,8 +9,11 @@
 #
 # Commands:
 #   hubot v1 tasks
-#   hubot v1 taskid todo 2
-#   hubot v1 taskid complete
+#   hubot v1 taskid Dongbin Li
+#   hubot v1 config
+#   hubot v1 set sprint=12
+#   hubot v1 update [taskid] ToDo 2
+#   hubot v1 complete [taskid]
 #
 # Author:
 #   mike-li
