@@ -9,11 +9,11 @@
 #
 # Commands:
 #   hubot v1 tasks - show all tasks
-#   hubot v1 tasks Dongbin Li - show tasks of Dongbin Li
+#   hubot v1 tasks <username> - show tasks of <username>
 #   hubot v1 config - show v1 configs
-#   hubot v1 set sprint=12 - set sprint to 12
-#   hubot v1 update 12345 ToDo 2 - update task 12345's ToDo to 2
-#   hubot v1 complete 12345 - set task 12345's status to Complete
+#   hubot v1 set <sprint>=<12> - set <sprint> to <12>
+#   hubot v1 update <12345> <ToDo> <2> - update task <12345>'s <ToDo> to <2>
+#   hubot v1 complete <12345> - set task <12345>'s status to Complete
 #
 # Author:
 #   mike-li
