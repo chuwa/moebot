@@ -13,7 +13,7 @@
 #   hubot book <book>
 #
 # Author:
-#   mike-lee
+#   mike-li
 
 xml2js = require('xml2js')
 _ = require('underscore')
