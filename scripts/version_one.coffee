@@ -98,10 +98,19 @@ https.get "https://#{username}:#{password}@www14.v1host.com/acxiom1/VersionOne/r
       for mem in result.Asset
         MEMBERS[mem['@'].id] = getAttr(mem,"Name")
 
-
 module.exports = (robot) ->
+  robot.brain.data.v1_setting ||= {}
+
+  robot.respond /v1 set(.*)?$/i, (msg) ->
+    setting = _s.trim(msg.match[1])
+    settingArray = setting.split('=')
+    robot.brain.data.v1_setting[settingArray[0]] = settingArray[1]
+
   # search movie
   robot.respond /v1 tasks(.*)?$/i, (msg) ->
+    if not robot.brain.data.v1_setting['sprint']
+      msg.send "please set 'sprint' before check tasks."
+      return
     resource = "Task"
     result = ""
     owner = _s.trim(msg.match[1])
@@ -117,7 +126,7 @@ module.exports = (robot) ->
             t = new Task(task)
             continue unless t.status in ["In Progress", "Not Started"]
             continue unless t.team in ["Rapidus Front End Team"]
-            continue unless t.sprint in ["MVP 1.0 Sprint 12"]
+            continue unless t.sprint in ["MVP 1.0 Sprint #{robot.brain.data.v1_setting['sprint']}"]
             if owner.length > 0
               continue unless (t.member == owner)
             msg.send t.toString()
