@@ -56,7 +56,7 @@ class Task
     @sprint = getAttr(@asset, "Timebox.Name")
     @scope = getAttr(@asset, "Scope.Name")
     @todo = getAttr(@asset, "Todo")
-    @description = getAttr(@asset, "Description")
+    @description = getAttr(@asset, "Description")?.replace(/(<([^>]+)>)/ig,"").replace('&nbsp','')
     @href = "https://www14.v1host.com#{@asset['@']['href']}"
 
   getStatus: (status_id) =>
