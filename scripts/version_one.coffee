@@ -40,6 +40,8 @@ class Task
   constructor:(asset)->
     @asset = asset
     @name = getAttr(@asset, 'Name')
+    @number = getAttr(@asset, 'Number')
+    @id = @asset['@']['id']
     try
       @status_id = getRelation(@asset, 'Status')['@']['idref']
     catch error
@@ -76,7 +78,7 @@ class Task
 
   toString: =>
     str = ""
-    str += " #{@name}\n"
+    str += " #{@number} #{@name}\n"
     str += "--> #{@member}" + "\n"
     str += "--> #{@status}" + "\n"
     str += "--> ESTI: " + @estimate + "\n"
