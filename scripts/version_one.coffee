@@ -20,6 +20,7 @@ _ = require('underscore')
 _s = require('underscore.string')
 cheerio = require('cheerio')
 https = require('https')
+Util = require "util"
 
 username = process.env.VERSION1_USERNAME
 password = process.env.VERSION1_PASSWORD
@@ -105,10 +106,10 @@ module.exports = (robot) ->
     setting = _s.trim(msg.match[1])
     settingArray = setting.split('=')
     robot.brain.data.v1_setting[settingArray[0]] = settingArray[1]
-    msg.send robot.brain.data.v1_setting
+    msg.send Util.inspect(robot.brain.data.v1_setting, false, 4)
 
   robot.respond /v1 config$/i, (msg) ->
-    msg.send robot.brain.data.v1_setting
+    msg.send Util.inspect(robot.brain.data.v1_setting, false, 4)
 
   # search movie
   robot.respond /v1 tasks(.*)?$/i, (msg) ->
