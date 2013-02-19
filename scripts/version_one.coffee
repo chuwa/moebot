@@ -73,6 +73,7 @@ class Task
     str += @member + "\n"
     str += "TODO: " + @todo + "\n"
     str += @description  + "\n"
+    str += @href  + "\n"
     str
 
 v1_options = {
@@ -117,5 +118,4 @@ module.exports = (robot) ->
             continue unless t.team in ["Rapidus Front End Team"]
             continue unless t.sprint in ["MVP 1.0 Sprint 12"]
             msg.send t.toString()
-            msg.send t.href
 
