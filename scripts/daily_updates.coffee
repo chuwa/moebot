@@ -24,9 +24,7 @@ nice_print = (data) ->
 module.exports = (robot) ->
   robot.brain.data.daily_updates ||= {}
 
-  robot.respond /daily( all)?$/i, (msg) ->
-    console.log msg.match[1]
-    console.log msg.match[0]
+  robot.respond /daily(.*)?$/i, (msg) ->
     if _s.trim(msg.match[1]) == "all"
       msg.send nice_print(robot.brain.data.daily_updates)
     else
