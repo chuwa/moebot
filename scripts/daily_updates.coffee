@@ -24,7 +24,8 @@ module.exports = (robot) ->
 
   robot.respond /daily$/i, (msg) ->
     today = new Date().toDateString()
-    msg.send Util.inspect(robot.brain.data.daily_updates[today], false, 4)
+    robot.brain.data.daily_updates[today] ||= {}
+    msg.send "--------- #{today} ---------\n #{Util.inspect(robot.brain.data.daily_updates[today], false, 4)}"
 
   robot.respond /clear report$/i, (msg) ->
     today = new Date().toDateString()
