@@ -17,8 +17,12 @@
 sys = require('sys')
 exec = require('child_process').exec
 
-REPO_URL = "git@github.com:chuwa/moebot.git"
 PID_FILE = "pid_file.pid"
+
+DEPLOY_DIR = {
+  "rapidus": "/srv/acxiom/rapidus",
+  "moebot" : "git@github.com:chuwa/moebot.git"
+}
 
 module.exports = (robot) ->
   # update self
@@ -30,6 +34,17 @@ module.exports = (robot) ->
       msg.send stdout
       msg.send "reborn....."
       exec "kill `cat #{PID_FILE}`", (error, stdout, stderr) ->
+        msg.send error
+        msg.send stdout
+        msg.send stderr
+
+  robot.respond /deploy (.*)$/i, (msg) ->
+    dir = DEPLOY_DIR[msg.match[1]]
+    child = exec "cd #{dir} && git pull origin master",(error, stdout, stderr) ->
+      msg.send "update source codes...."
+      msg.send stdout
+      msg.send "restart....."
+      exec "cd #{dir} && bundle exec rake assets:precompile && touch tmp/restart.txt ", (error, stdout, stderr) ->
         msg.send error
         msg.send stdout
         msg.send stderr
