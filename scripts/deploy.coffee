@@ -44,7 +44,7 @@ module.exports = (robot) ->
       msg.send "update source codes...."
       msg.send stdout
       msg.send "restart....."
-      exec "cd #{dir} && /usr/local/rvm/gems/ruby-1.9.3-p374@global/bin/bundle exec rake assets:precompile && touch tmp/restart.txt ", (error, stdout, stderr) ->
+      exec "cd #{dir} && source ~/.profile && bundle exec rake assets:precompile && touch tmp/restart.txt ", (error, stdout, stderr) ->
         msg.send error
         msg.send stdout
         msg.send stderr
