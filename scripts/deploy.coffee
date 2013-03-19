@@ -44,7 +44,7 @@ module.exports = (robot) ->
       msg.send "update source codes...."
       msg.send stdout
       msg.send "restart....."
-      exec "cd #{dir} && /usr/local/rvm/bin/rvm use jruby && rake war", { env:process.env }, (error, stdout, stderr) ->
+      exec "cd #{dir} && /usr/local/rvm/bin/rvm use jruby && /usr/local/rvm/gems/jruby-1.7.0.preview2@hadoop-demo/bin/rake war", { env:process.env }, (error, stdout, stderr) ->
         msg.send error
         msg.send stdout
         msg.send stderr
