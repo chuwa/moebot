@@ -44,7 +44,7 @@ module.exports = (robot) ->
       msg.send "update source codes...."
       msg.send stdout
       msg.send "restart....."
-      exec "cd #{dir} && rake war", { env:process.env }, (error, stdout, stderr) ->
+      exec "cd #{dir} && /home/mike/.rbenv/shims/rake war", { env:process.env }, (error, stdout, stderr) ->
         msg.send error
         msg.send stdout
         msg.send stderr
