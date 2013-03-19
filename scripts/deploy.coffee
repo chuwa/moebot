@@ -20,7 +20,7 @@ exec = require('child_process').exec
 PID_FILE = "pid_file.pid"
 
 DEPLOY_DIR = {
-  "rapidus": "/home/mike/app/rapidus",
+  "rapidus": "/home/mike/apps/rapidus",
   "moebot" : "git@github.com:chuwa/moebot.git"
 }
 
