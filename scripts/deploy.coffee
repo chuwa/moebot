@@ -40,11 +40,11 @@ module.exports = (robot) ->
 
   robot.respond /war (.*)$/i, (msg) ->
     dir = DEPLOY_DIR[msg.match[1]]
-    child = exec "cd #{dir} && git pull origin master",(error, stdout, stderr) ->
+    child = exec "cd #{dir} && git pull origin master && source /etc/profile.d/rvm.sh",(error, stdout, stderr) ->
       msg.send "update source codes...."
       msg.send stdout
       msg.send "restart....."
-      exec "cd #{dir} && /usr/local/rvm/bin/rvm use jruby && /usr/local/rvm/gems/jruby-1.7.0.preview2@hadoop-demo/bin/rake war", { env:process.env }, (error, stdout, stderr) ->
+      exec "cd #{dir} && rvm use jruby && rake war", { env:process.env }, (error, stdout, stderr) ->
         msg.send error
         msg.send stdout
         msg.send stderr
