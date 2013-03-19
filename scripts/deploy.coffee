@@ -20,7 +20,7 @@ exec = require('child_process').exec
 PID_FILE = "pid_file.pid"
 
 DEPLOY_DIR = {
-  "rapidus": "/srv/acxiom/rapidus",
+  "rapidus": "/home/mike/app/rapidus",
   "moebot" : "git@github.com:chuwa/moebot.git"
 }
 
@@ -38,13 +38,13 @@ module.exports = (robot) ->
         msg.send stdout
         msg.send stderr
 
-  robot.respond /deploy (.*)$/i, (msg) ->
+  robot.respond /war (.*)$/i, (msg) ->
     dir = DEPLOY_DIR[msg.match[1]]
     child = exec "cd #{dir} && git pull origin master",(error, stdout, stderr) ->
       msg.send "update source codes...."
       msg.send stdout
       msg.send "restart....."
-      exec "cd #{dir} && bundle exec  rake assets:precompile && touch tmp/restart.txt ", { env:process.env }, (error, stdout, stderr) ->
+      exec "cd #{dir} && rvm use jruby && bundle exec rake assets:precompile && rake war", { env:process.env }, (error, stdout, stderr) ->
         msg.send error
         msg.send stdout
         msg.send stderr
