@@ -24,10 +24,12 @@
     "soupselect" : "0.2.0",
     "htmlparser" : "1.7.6",
     "xml2js": "0.1.14",
-    "cheerio": "0.9.1",
+    "cheerio": "~0.11.0",
     "aws-lib": "0.1.1",
     "nodepie": "0.5.1",
-    "futures": ">=2.1.0"
+    "futures": ">=2.1.0",
+    "request": "~2.21.0",
+    "cron": "~1.0.1"
   },
 
   "engines": {
